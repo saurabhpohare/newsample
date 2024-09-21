@@ -1,28 +1,29 @@
 name: Deploy Logic App
 
-on:
+# Define the events that trigger the workflow
+on: 
   push:
-    branches:
-      - main  # Change this to your main branch if different
+    branches: 
+      - main  # Ensure this matches your main branch name
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Specifies the runner environment
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2  # Checks out the repository to the runner
 
       - name: Log in to Azure
-        uses: azure/login@v1
+        uses: azure/login@v1  # Logs into Azure using the credentials stored in GitHub Secrets
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}  # Ensure AZURE_CREDENTIALS is correctly set up as a secret
 
       - name: Deploy Logic App
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v1  # Deploys the Logic App using ARM templates
         with:
-          subscriptionId: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
-          resourceGroupName: ${{ fromJson(secrets.AZURE_CREDENTIALS).resourceGroup }}
-          template: template.json
-          parameters: parameters.json
+          subscriptionId: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}  # Extracts subscription ID from JSON secret
+          resourceGroupName: ${{ fromJson(secrets.AZURE_CREDENTIALS).resourceGroupName }}  # Extracts resource group name from JSON secret
+          template: ./template.json  # Adjust path if needed
+          parameters: ./parameters.json  # Adjust path if needed
           deploymentName: logic-app-deployment
