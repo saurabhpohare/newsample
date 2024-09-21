@@ -21,8 +21,8 @@ jobs:
       - name: Deploy Logic App
         uses: azure/arm-deploy@v1
         with:
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          subscriptionId: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
+          resourceGroupName: ${{ fromJson(secrets.AZURE_CREDENTIALS).resourceGroup }}
           template: template.json
           parameters: parameters.json
-          deployment-name: logic-app-deployment
+          deploymentName: logic-app-deployment
