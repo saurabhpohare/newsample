@@ -1,0 +1,82 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_saurabh_name": {
+            "defaultValue": "saurabh",
+            "type": "String"
+        },
+        "connections_sql_externalid": {
+            "defaultValue": "/subscriptions/8fc3811b-d395-47cb-9fb2-b2a5f674371c/resourceGroups/production/providers/Microsoft.Web/connections/sql",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_saurabh_name')]",
+            "location": "eastasia",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "When_a_HTTP_request_is_received": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST"
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Execute_stored_procedure_(V2)": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "ChildWorkflowId": "saurabj",
+                                    "Destination": "nagpur",
+                                    "ErrorMessage": "invalid ",
+                                    "FilePath": "fklahfah",
+                                    "FlowStatus": "incomplete",
+                                    "InvoiceNumber": "507286",
+                                    "ParentWorkflowId": "new",
+                                    "Status": "success"
+                                },
+                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[SP_Insert1_InvoiceTracker]'))}"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "sql": {
+                                "id": "/subscriptions/8fc3811b-d395-47cb-9fb2-b2a5f674371c/providers/Microsoft.Web/locations/eastasia/managedApis/sql",
+                                "connectionId": "[parameters('connections_sql_externalid')]",
+                                "connectionName": "sql"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
