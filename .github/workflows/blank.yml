@@ -1,11 +1,5 @@
 
 
-# Define the events that trigger the workflow
-on: 
-  push:
-    branches: 
-      - main  # Ensure this matches your main branch name
-
 jobs:
   deploy:
     runs-on: ubuntu-latest  # Specifies the runner environment
