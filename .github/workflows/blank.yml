@@ -1,4 +1,10 @@
+name: Deploy Logic App
 
+on:
+  push:
+    branches:
+      - main  # Adjust to your main branch
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   deploy:
@@ -20,4 +26,4 @@ jobs:
           resourceGroupName: ${{ fromJson(secrets.AZURE_CREDENTIALS).resourceGroupName }}  # Extracts resource group name from JSON secret
           template: ./template.json  # Adjust path if needed
           parameters: ./parameters.json  # Adjust path if needed
-          deploymentName: logic-app-deployment
+          deploymentName: logic-app-deployment  # Name of the deployment
