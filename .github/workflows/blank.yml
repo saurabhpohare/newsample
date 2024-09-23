@@ -1,4 +1,4 @@
-name: Deploy Logic App
+
 
 # Define the events that trigger the workflow
 on: 
